@@ -2,31 +2,30 @@
 using MVCStartApp.Models.Context;
 using MVCStartApp.Models.Db;
 using MVCStartApp.Repository.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace MVCStartApp.Repository
 {
     public class RequestRepository : IRequestRepository
     {
-        private readonly BlogContext _context;
+        public BlogContext _context;
 
-        public RequestRepository(BlogContext blogContext)
+        public RequestRepository(BlogContext context)
         {
-            _context = blogContext;
+            _context = context;
         }
 
         public async Task AddRequest(Request request)
         {
+            request.Date = DateTime.Now;
+            request.Id = Guid.NewGuid();
+
             var entity = _context.Entry(request);
             if(entity.State == EntityState.Detached)
-                await _context.AddAsync(entity);
+                await _context.Requests.AddAsync(request);
 
             await _context.SaveChangesAsync();
-        }
-
-        public Task<Request[]> GetRequests()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -13,33 +13,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MVCStartApp.Models.Context;
-using MVCStartApp.Repository.Interfaces;
 
 namespace MVCStartApp
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IBlogRepository, BlogRepository>();
-            services.AddSingleton<IRequestRepository, RequestRepository>();
-
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection));
+
+            services.AddTransient<IBlogRepository, BlogRepository>();
+            services.AddTransient<IRequestRepository, RequestRepository>();
             services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMiddleware<LoggingMiddleware>();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -55,6 +52,8 @@ namespace MVCStartApp
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseMiddleware<LoggingMiddleware>();
+
 
             app.UseEndpoints(endpoints =>
             {

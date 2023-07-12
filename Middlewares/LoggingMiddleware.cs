@@ -10,25 +10,25 @@ namespace MVCStartApp.Middlewares
     public class LoggingMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IRequestRepository _requestRepository;
 
-        public LoggingMiddleware(RequestDelegate next, IRequestRepository requestRepository)
+        public LoggingMiddleware(RequestDelegate next)
         {
             _next = next;
-            _requestRepository = requestRepository;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, IRequestRepository requestRepository)
         {
             string logUrl = $"[{DateTime.Now}]: New request to http://{context.Request.Host.Value + context.Request.Path}";
             Console.WriteLine(logUrl);
 
             var request = new Request()
             {
+                Date = DateTime.Now,
+                Id = Guid.NewGuid(),
                 Url = logUrl
             };
 
-            _requestRepository.AddRequest(request);
+            await requestRepository.AddRequest(request);
 
             await _next.Invoke(context);
         }
