@@ -17,7 +17,7 @@ namespace MVCStartApp.Middlewares
 
         public async Task Invoke(HttpContext context, IRequestRepository requestRepository)
         {
-            string logUrl = $"[{DateTime.Now}]: New request to http://{context.Request.Host.Value + context.Request.Path}";
+            string logUrl = $"to http://{context.Request.Host.Value + context.Request.Path}";
             Console.WriteLine(logUrl);
 
             var request = new Request()

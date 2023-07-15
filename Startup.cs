@@ -32,6 +32,7 @@ namespace MVCStartApp
 
             services.AddTransient<IBlogRepository, BlogRepository>();
             services.AddTransient<IRequestRepository, RequestRepository>();
+            services.AddTransient<IFeedbackRepository, FeedbackRepository>();
             services.AddControllersWithViews();
         }
 

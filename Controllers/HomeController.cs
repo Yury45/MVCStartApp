@@ -24,19 +24,6 @@ namespace MVCStartApp.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-            var newUser = new User()
-            {
-                Id = Guid.NewGuid(),
-                Firstname = "Andrey",
-                Lastname = "Petrov",
-                CreatedDate = DateTime.Now
-            };
-
-            // Добавим в базу
-            await _blogRepository.AddUser(newUser);
-
-            // Выведем результат
-            Console.WriteLine($"User with id {newUser.Id}, named {newUser.Firstname} was successfully added on {newUser.CreatedDate}");
             return View();
         }
 
