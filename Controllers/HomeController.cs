@@ -50,15 +50,5 @@ namespace MVCStartApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public async Task<IActionResult> Authors()
-        {
-            var authors = await _blogRepository.GetUsers();
-
-            Console.WriteLine("See all blog authors:");
-            foreach (var author in authors)
-                Console.WriteLine($"Author name {author.Firstname}, joined {author.CreatedDate}");
-
-            return View();
-        }
     }
 }

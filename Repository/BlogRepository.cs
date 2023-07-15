@@ -2,6 +2,7 @@
 using MVCStartApp.Models.Context;
 using MVCStartApp.Models.Db;
 using MVCStartApp.Repository.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace MVCStartApp.Repository
@@ -17,6 +18,9 @@ namespace MVCStartApp.Repository
 
         public async Task AddUser(User user)
         {
+            user.Id = Guid.NewGuid();
+            user.CreatedDate = DateTime.Now;
+
             var entry = _context.Entry(user);
             if (entry.State == EntityState.Detached)
                 await _context.Users.AddAsync(user);

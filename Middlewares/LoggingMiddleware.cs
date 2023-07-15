@@ -30,7 +30,7 @@ namespace MVCStartApp.Middlewares
 
             await requestRepository.AddRequest(request);
 
-            await _next.Invoke(context);
+                await _next.Invoke(context);
         }
     }
 }
