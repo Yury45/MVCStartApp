@@ -10,7 +10,6 @@ namespace MVCStartApp.Middlewares
     public class LoggingMiddleware
     {
         private readonly RequestDelegate _next;
-
         public LoggingMiddleware(RequestDelegate next)
         {
             _next = next;
